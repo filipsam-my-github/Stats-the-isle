@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input, button {
+            padding: 8px;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .output {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Miaia's Stats Calculator</h1>
+<h2>Provide your weight for stun info or bite force for dmg info</h2>
+
+<label for="weight">Weight in kg (adult = 3750):</label><br>
+<input type="number" id="weight" min="1" step="1">
+<button onclick="calculate_stuns()">Calculate</button>
+
+<br><br>
+
+<label for="dmg">Bite force in N (adult = 50N):</label><br>
+<input type="number" id="dmg" min="1" step="1">
+<button onclick="calculate_dmg()">Calculate</button>
+
+<div id="output_mass" class="output"></div>
+<div id="output_dmg" class="output"></div>
+
+<script>
+const BASE_MAIA_WEIGHT = 3750;
+const BASE_MAIA_BITE = 50;
+
+function calculate_stuns() {
+    const weight = parseFloat(document.getElementById("weight").value);
+
+    if (isNaN(weight) || weight <= 0) {
+        alert("Please enter a valid weight.");
+        return;
+    }
+
+    const m = weight / BASE_MAIA_WEIGHT;
+
+    const result = `
+STAGGERS
+
+Double Back kick - ${(5 * m).toFixed(2)} t
+Shove - ${(3 * m).toFixed(2)} t
+Running shove - ${(5 * m).toFixed(2)} t
+Accelerated stomp - ${(3 * m).toFixed(2)} t
+Double stomp - <${(1.5 * m).toFixed(2)} t
+Side kick - ${(2 * m).toFixed(2)} t
+Side/back kick - <${(3 * m).toFixed(2)} t
+Frontal side alt - <${(1.5 * m).toFixed(2)} t
+Frontal alt - <${(1.5 * m).toFixed(2)} t
+
+
+KNOCKDOWNS
+
+Double Back kick - <${(2.5 * m).toFixed(2)} t
+Shove - <${(1.15 * m).toFixed(2)} t
+Running shove - <${(2.5 * m).toFixed(2)} t
+Accelerated stomp - <${(1.5 * m).toFixed(2)} t
+Double stomp - <${(750 * m).toFixed(2)} kg
+Side kick - <${(1 * m).toFixed(2)} t
+Side/back kick - <${(1.5 * m).toFixed(2)} t
+Frontal side alt - <${(750 * m).toFixed(2)} kg
+Frontal alt - <${(750 * m).toFixed(2)} kg
+
+`;
+
+    document.getElementById("output_mass").textContent = result;
+}
+
+
+
+function calculate_dmg() {
+    const dmg = parseFloat(document.getElementById("dmg").value);
+
+    if (isNaN(dmg) || dmg <= 0) {
+        alert("Please enter a valid weight.");
+        return;
+    }
+
+    const m = dmg / BASE_MAIA_BITE;
+
+    const result = `
+DAMAGE
+
+Hold stomp - ${(500 * m).toFixed(2)} N
+Double Back kick - ${(255 * m).toFixed(2)} N × 2
+Accelerated stomp - ${(450 * m).toFixed(2)} N
+Double stomp - ${(200 * m).toFixed(2)} N × 2
+Side kick - ${(250 * m).toFixed(2)} N
+Side back kick - ${(350 * m).toFixed(2)} N
+Frontal alt / Frontal side alt - ${(150 * m).toFixed(2)} N
+`;
+
+    document.getElementById("output_dmg").textContent = result;
+}
+</script>
+
+</body>
+</html>
